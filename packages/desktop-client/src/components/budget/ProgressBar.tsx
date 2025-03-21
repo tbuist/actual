@@ -121,7 +121,7 @@ type ProgressBarProps = {
   category: CategoryEntity;
 };
 
-export function ProgressBar({ month, category }: ProgressBarProps) {
+export function ProgressBar({ month, category, isMobile }: ProgressBarProps) {
   const { t } = useTranslation();
   const [leftBar, setLeftBar] = useState<ColorBar>(new ColorBar());
   const [rightBar, setRightBar] = useState<ColorBar>(new ColorBar());
@@ -191,6 +191,10 @@ export function ProgressBar({ month, category }: ProgressBarProps) {
     barOpacity = FULL_OPACITY; // If a non-current month is hovered over, raise that month to fully visible
   }
 
+  if (isMobile) {
+    barOpacity = FULL_OPACITY; // Always fully visible on mobile
+  }
+
   return (
     <View
       style={{
@@ -198,7 +202,7 @@ export function ProgressBar({ month, category }: ProgressBarProps) {
         position: 'absolute',
         right: 0,
         bottom: 0,
-        marginBottom: 1,
+        marginBottom: isMobile ? -12 : 1,
         width: '100%',
         opacity: barOpacity,
         transition: 'opacity 0.25s',

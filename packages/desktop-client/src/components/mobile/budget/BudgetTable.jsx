@@ -54,6 +54,8 @@ import { BudgetCell } from './BudgetCell';
 import { IncomeGroup } from './IncomeGroup';
 import { ListItem } from './ListItem';
 
+import { ProgressBar } from '../../budget/ProgressBar';
+
 export const PILL_STYLE = {
   borderRadius: 16,
   color: theme.pillText,
@@ -644,6 +646,7 @@ const ExpenseCategory = memo(function ExpenseCategory({
               </Button>
             )}
           </BalanceWithCarryover>
+          <ProgressBar category={category} month={month} isMobile={true} />
         </View>
       </View>
     </ListItem>
