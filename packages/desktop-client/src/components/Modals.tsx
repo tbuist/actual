@@ -559,6 +559,7 @@ export function Modals() {
               onAddCategoryGroup={modal.options.onAddCategoryGroup}
               onToggleHiddenCategories={modal.options.onToggleHiddenCategories}
               onSwitchBudgetFile={modal.options.onSwitchBudgetFile}
+              onToggleProgressBars={modal.options.onToggleProgressBars}
             />
           );
 

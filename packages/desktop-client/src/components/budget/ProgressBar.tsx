@@ -78,10 +78,10 @@ function getColorBars(
     leftBar.category = 'Saved';
     rightBar.category = 'Remaining';
   } else if (balance < 0) {
-    // We spent more than or equal to the pre-spending category balance. 
+    // We spent more than or equal to the pre-spending category balance.
     // Overspending will be relative to the prior balance plus budgeted amount
     const available = balance - spent;
-    const total = -spent; // Spending becomes the divisor instead of pre-spending balance 
+    const total = -spent; // Spending becomes the divisor instead of pre-spending balance
     leftBar.width = bound(Math.round((available / total) * 100), 0, 100);
     rightBar.width = 100 - leftBar.width;
 
@@ -119,9 +119,14 @@ function bound(val: number, min: number, max: number): number {
 type ProgressBarProps = {
   month: string;
   category: CategoryEntity;
+  isMobile?: boolean;
 };
 
-export function ProgressBar({ month, category, isMobile }: ProgressBarProps) {
+export function ProgressBar({
+  month,
+  category,
+  isMobile = false,
+}: ProgressBarProps) {
   const { t } = useTranslation();
   const [leftBar, setLeftBar] = useState<ColorBar>(new ColorBar());
   const [rightBar, setRightBar] = useState<ColorBar>(new ColorBar());
@@ -181,18 +186,22 @@ export function ProgressBar({ month, category, isMobile }: ProgressBarProps) {
   const PARTIAL_OPACITY = '0.4';
   const FULL_OPACITY = '1';
 
+  // Default styling
   let barOpacity = PARTIAL_OPACITY; // By default, all categories in all months with some activity are partly visible
   if (isCurrentMonth) {
     barOpacity = FULL_OPACITY; // By default, categories in the current month are fully visible
   }
+
+  // Styling during a hover event
   if (isCurrentMonth && hoveredMonth && hoveredMonth !== month) {
     barOpacity = PARTIAL_OPACITY; // If a non-current month is hovered over, lower visibility for the current month
   } else if (hoveredMonth === month) {
     barOpacity = FULL_OPACITY; // If a non-current month is hovered over, raise that month to fully visible
   }
 
+  // Always fully visible on mobile
   if (isMobile) {
-    barOpacity = FULL_OPACITY; // Always fully visible on mobile
+    barOpacity = FULL_OPACITY;
   }
 
   return (
@@ -202,7 +211,7 @@ export function ProgressBar({ month, category, isMobile }: ProgressBarProps) {
         position: 'absolute',
         right: 0,
         bottom: 0,
-        marginBottom: isMobile ? -12 : 1,
+        marginBottom: isMobile ? -12 : 0,
         width: '100%',
         opacity: barOpacity,
         transition: 'opacity 0.25s',
